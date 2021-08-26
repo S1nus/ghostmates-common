@@ -2,16 +2,17 @@ use async_std::{
     net::{TcpStream}
 };
 
-use futures_codec::{Bytes, BytesMut, LengthCodec, Framed, FramedWrite, Decoder, Encoder};
+use futures_codec::{Bytes, BytesMut, LengthCodec, Framed, FramedRead, FramedWrite, Decoder, Encoder};
 use std::io::{Error, ErrorKind};
+use async_std::io::{BufWriter, BufReader};
 
 pub struct StringCodec(pub LengthCodec);
 
-pub fn new_codec_reader(stream: TcpStream) -> Framed<TcpStream, StringCodec> {
-    Framed::new(stream, StringCodec(LengthCodec))
+pub fn new_codec_reader(stream: BufReader<&TcpStream>) -> FramedRead<BufReader<&TcpStream>, StringCodec> {
+    FramedRead::new(stream, StringCodec(LengthCodec))
 }
 
-pub fn new_codec_writer(stream: TcpStream) -> FramedWrite<TcpStream, StringCodec> {
+pub fn new_codec_writer(stream: BufWriter<&TcpStream>) -> FramedWrite<BufWriter<&TcpStream>, StringCodec> {
     FramedWrite::new(stream, StringCodec(LengthCodec))
 }
 
