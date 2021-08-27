@@ -12,6 +12,8 @@ pub fn new_codec_reader(stream: BufReader<&TcpStream>) -> FramedRead<BufReader<&
     FramedRead::new(stream, StringCodec(LengthCodec))
 }
 
+pub mod message_types;
+
 pub fn new_codec_writer(stream: BufWriter<&TcpStream>) -> FramedWrite<BufWriter<&TcpStream>, StringCodec> {
     FramedWrite::new(stream, StringCodec(LengthCodec))
 }
