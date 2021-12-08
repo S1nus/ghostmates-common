@@ -6,6 +6,9 @@ use futures_codec::{Bytes, BytesMut, LengthCodec, Framed, FramedRead, FramedWrit
 use std::io::{Error, ErrorKind};
 use async_std::io::{BufWriter, BufReader};
 
+pub type StringCodecReader<'a> = FramedRead<BufReader<&'a TcpStream>, StringCodec>;
+pub type StringCodecWriter<'a> = FramedWrite<BufWriter<&'a TcpStream>, StringCodec>;
+
 pub struct StringCodec(pub LengthCodec);
 
 pub fn new_codec_reader(stream: BufReader<&TcpStream>) -> FramedRead<BufReader<&TcpStream>, StringCodec> {
