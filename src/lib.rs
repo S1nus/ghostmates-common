@@ -35,7 +35,8 @@ pub enum GhostmatesMessage {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum PCheckMessage {
     RequestForPCheck {
-        recipient_ghost_address: String
+        recipient_ghost_address: String,
+        courier_ghost_address: String
     }
 }
 
