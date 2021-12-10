@@ -1,3 +1,7 @@
+use serde::{Serialize, Deserialize};
+use sodiumoxide::crypto::box_::{PublicKey as SodiumPublicKey, SecretKey as SodiumSecretKey, Nonce as SodiumNonce};
+use sodiumoxide::crypto::box_;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub enum GhostmatesMessage {
     Identify {
@@ -28,14 +32,14 @@ pub enum GhostmatesMessage {
     },
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum PCheckMessage {
     RequestForPCheck {
         recipient_ghost_address: String
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ProtocolMessage {
     ACheck,
     PCheck(PCheckMessage),
