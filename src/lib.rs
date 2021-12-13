@@ -8,6 +8,8 @@ use paillier::{
     encoding::EncodedCiphertext as PaillierEncodedCiphertext
 };
 
+use arrayvec::ArrayVec;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub enum GhostmatesMessage {
     Identify {
@@ -44,18 +46,28 @@ pub enum PCheckMessage {
         recipient_ghost_address: String,
         courier_ghost_address: String
     },
-    /*RecipientToSenderRound1 {
+    RecipientToSenderRound1 {
+        courier_address: String,
         paillier_key: PaillierEncryptionKey,
-        enc_ab_pairs: [(PaillierEncodedCiphertext<usize>, PaillierEncodedCiphertext<usize>); 128],
-        a_shares: [PaillierEncodedCiphertext<usize>; 128],
-        b_shares: [PaillierEncodedCiphertext<usize>; 128],
+        // Lengths of all these vectors is 128... don't know how to fix that
+        enc_ab_pairs: Vec<(PaillierEncodedCiphertext<u64>, PaillierEncodedCiphertext<u64>)>,
+        a_shares: Vec<PaillierEncodedCiphertext<u64>>,
+        b_shares: Vec<PaillierEncodedCiphertext<u64>>,
     },
     CourierToSenderRound1 {
+        recipient_address: String,
         paillier_key: PaillierEncryptionKey,
-        enc_ab_pairs: [(PaillierEncodedCiphertext<usize>, PaillierEncodedCiphertext<usize>); 128],
-        a_shares: [PaillierEncodedCiphertext<usize>; 128],
-        b_shares: [PaillierEncodedCiphertext<usize>; 128]
-    }*/
+        // Lengths of all these vectors is 128... don't know how to fix that
+        enc_ab_pairs: Vec<(PaillierEncodedCiphertext<u64>, PaillierEncodedCiphertext<u64>)>,
+        a_shares: Vec<PaillierEncodedCiphertext<u64>>,
+        b_shares: Vec<PaillierEncodedCiphertext<u64>>,
+    },
+    SenderToCourierRound1 {
+        sender_to_courier_t_values: Vec<PaillierEncodedCiphertext<u64>>,
+    },
+    SenderToRecipientRound1{
+        sender_to_recipient_t_values: Vec<PaillierEncodedCiphertext<u64>>,
+    },
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

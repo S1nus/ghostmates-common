@@ -12,3 +12,5 @@ async-std = "1.9.0"
 sodiumoxide = "0.2.7"
 serde = { version = "1.0", features = ["derive"] }
 paillier ="0.2.0"
+arrayvec = "0.7.2"
+threshold-secret-sharing = "0.2.2"
