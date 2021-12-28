@@ -46,8 +46,19 @@ pub enum PCheckMessage {
         recipient_ghost_address: String,
         courier_ghost_address: String
     },
+    CourierRequestRecipient {
+        sender_ghost_address: String,
+    },
     RecipientToSenderRound1 {
         courier_address: String,
+        paillier_key: PaillierEncryptionKey,
+        // Lengths of all these vectors is 128... don't know how to fix that
+        enc_ab_pairs: Vec<(PaillierEncodedCiphertext<u64>, PaillierEncodedCiphertext<u64>)>,
+        a_shares: Vec<PaillierEncodedCiphertext<u64>>,
+        b_shares: Vec<PaillierEncodedCiphertext<u64>>,
+    },
+    RecipientToCourierRound1 {
+        sender_address: String,
         paillier_key: PaillierEncryptionKey,
         // Lengths of all these vectors is 128... don't know how to fix that
         enc_ab_pairs: Vec<(PaillierEncodedCiphertext<u64>, PaillierEncodedCiphertext<u64>)>,
@@ -62,10 +73,16 @@ pub enum PCheckMessage {
         a_shares: Vec<PaillierEncodedCiphertext<u64>>,
         b_shares: Vec<PaillierEncodedCiphertext<u64>>,
     },
+    CourierToRecipientRound1 {
+        sender_address: String,
+        courier_to_recipient_t_values: Vec<PaillierEncodedCiphertext<u64>>,
+    },
     SenderToCourierRound1 {
+        recipient_address: String,
         sender_to_courier_t_values: Vec<PaillierEncodedCiphertext<u64>>,
     },
     SenderToRecipientRound1{
+        courier_address: String,
         sender_to_recipient_t_values: Vec<PaillierEncodedCiphertext<u64>>,
     },
 }
